@@ -12,7 +12,7 @@ const shows = document.getElementsByClassName("show");
 const start = document.querySelector('.btn__reset');
 const buttons = document.getElementsByTagName("button");
 
-const phrases = ['The Virgin Spring', 'LA Confidential', 'Closely Watched Trains', 'The Lighthouse', 'Parasite'];
+const phrases = ['The Virgin Spring', 'LA Confidential', 'American Beauty', 'The Lighthouse', 'Parasite'];
 
 let missed = 0;
 
@@ -44,7 +44,7 @@ addPhraseToDisplay(phraseArray);
 function checkLetter(button){
     let letter = null;
     for(let i = 0; i < letters.length; i++){
-        if(letters[i].textContent === button.textContent) {
+        if(letters[i].textContent.toLowerCase() === button.textContent) {
             letters[i].classList.add('show');
             letter = letters[i].textContent;
         }
@@ -61,7 +61,7 @@ function checkLetter(button){
 function checkWin(){
     function resetButton(status, buttonMessage, statusMessage) {
         overlay.className = status;
-        startButton.textContent = buttonMessage;
+        start.textContent = buttonMessage;
         const p = document.createElement("p");
         p.className = "statusMessage";
         p.textContent = statusMessage;
@@ -72,7 +72,7 @@ function checkWin(){
         resetButton("win", "Play Again", "You Won!");
         return true;
     }
-    if (missed === 5){
+    if (missed >= 5){
         resetButton("lose", "Try Again", "You Lost, try again?");
         return true;
     }
@@ -82,18 +82,27 @@ function checkWin(){
 function reset(){
     missed = 0;
     ul.innerHTML = '';
-    addPhraseToDisplay(phraseArray);
-    console.log(phraseArray);
+    let newPhrase = getRandomPhraseAsArray(phrases);
+    addPhraseToDisplay(newPhrase);
+    console.log(newPhrase);
 
     for (let i = 0; i < buttons.length; i++){
         buttons[i].className = '';
         buttons[i].disabled = false;
         buttons[i].style = '#e5e5e5';
     }
-
+    
     const li = ol.children;
     for (let i = 0; i < li.length; i++){
         li[i].innerHTML = `<img src="images/liveHeart.png" height="35px" width="35px">`;
+    }
+
+    overlay.className = "start";
+    start.textContent = "Start Game";
+    start.className = "btn__reset";
+    const p = document.querySelector(".statusMessage");
+    if (p != null) {
+        overlay.removeChild(p);
     }
 }
 
@@ -121,8 +130,8 @@ keyboard.addEventListener('click', e => {
         }
     }
     if(checkWin() === true){
-        start.addEventListener('click', (e) => {
-            e.reset();
+        start.addEventListener('click', () => {
+            reset();
         });
     } else {
         checkWin();
