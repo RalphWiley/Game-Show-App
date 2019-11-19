@@ -50,10 +50,8 @@ function checkLetter(button){
         }
     }
     if (letter != null){
-        console.log(letter + ' if');
         return letter;
     } else {
-        console.log(letter + ' else');
         return letter;
     }
 }
@@ -72,7 +70,8 @@ function checkWin(){
         resetButton("win", "Play Again", "You Won!");
         return true;
     }
-    if (missed >= 5){
+    else if (missed > 4){
+        console.log(missed);
         resetButton("lose", "Try Again", "You Lost, try again?");
         return true;
     }
@@ -113,13 +112,13 @@ start.addEventListener('click', () => {
 keyboard.addEventListener('click', e => {
     if(e.target.tagName === 'BUTTON'){
         const button = e.target;
-        console.log(button + ' keyboard event listener');
         button.disabled = true;
         button.className = 'chosen';
         const letterFound = checkLetter(button);
         
         if (letterFound === null) {
-            missed = missed++;
+            missed = missed + 1;
+            console.log(missed);
             button.style.background = "#df8a2a";
             const oldLi = ol.firstElementChild;
             //remove heart
@@ -128,14 +127,12 @@ keyboard.addEventListener('click', e => {
             li.innerHTML = `<img src="images/lostHeart.png" height="35px" width="35px">`;
             ol.appendChild(li);
         }
-    }
     if(checkWin() === true){
         start.addEventListener('click', () => {
             reset();
         });
     } else {
         checkWin();
-    }
-    
-    
+    } 
+}
 });
