@@ -53,6 +53,11 @@ button {
   -webkit-transition: var(--transition);
   -o-transition: var(--transition);
   transition: var(--transition);
+  transition: opacity .1s;
+}
+
+.keyrow button:hover {
+  opacity: .8;
 }
 
 .main-container {
@@ -92,9 +97,23 @@ button {
   width: 15px;
 }
 
+@keyframes skew {
+  0% {
+    transform: skewX(5deg);
+  }
+
+  100% {
+    transform: skewX(-5deg);
+  }
+}
+
 .show {
   color: #000;
   background-color: #76CE82;
+  animation: skew .2s linear;
+  animation-iteration-count: 2;
+  animation-direction: alternate-reverse;
+  transition: var(--transition);
 }
 
 /* Keyboard */

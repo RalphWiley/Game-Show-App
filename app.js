@@ -1,6 +1,6 @@
 const overlay = document.getElementById('overlay');
 const keyboard = document.getElementById('qwerty');
-const phrase = document.getElementById('phrase');
+const phrase = document.getElementById('phrase');   
 const hearts = document.getElementById('scoreboard');
 
 const ul = phrase.firstElementChild;
@@ -15,7 +15,6 @@ const buttons = document.getElementsByTagName("button");
 const phrases = ['The Virgin Spring', 'LA Confidential', 'American Beauty', 'The Lighthouse', 'Parasite'];
 
 let missed = 0;
-
 
 function getRandomPhraseAsArray(arr) {
     const randomPhrase = arr[Math.floor(Math.random() * arr.length)];
@@ -38,7 +37,6 @@ function addPhraseToDisplay(arr) {
 }
 
 let phraseArray = getRandomPhraseAsArray(phrases);
-console.log(phraseArray);
 addPhraseToDisplay(phraseArray);
 
 function checkLetter(button){
@@ -49,6 +47,7 @@ function checkLetter(button){
             letter = letters[i].textContent;
         }
     }
+    
     if (letter != null){
         return letter;
     } else {
@@ -71,7 +70,6 @@ function checkWin(){
         return true;
     }
     else if (missed > 4){
-        console.log(missed);
         resetButton("lose", "Try Again", "You Lost, try again?");
         return true;
     }
@@ -83,8 +81,7 @@ function reset(){
     ul.innerHTML = '';
     let newPhrase = getRandomPhraseAsArray(phrases);
     addPhraseToDisplay(newPhrase);
-    console.log(newPhrase);
-
+  
     for (let i = 0; i < buttons.length; i++){
         buttons[i].className = '';
         buttons[i].disabled = false;
@@ -118,7 +115,6 @@ keyboard.addEventListener('click', e => {
         
         if (letterFound === null) {
             missed = missed + 1;
-            console.log(missed);
             button.style.background = "#df8a2a";
             const oldLi = ol.firstElementChild;
             //remove heart
@@ -127,12 +123,13 @@ keyboard.addEventListener('click', e => {
             li.innerHTML = `<img src="images/lostHeart.png" height="35px" width="35px">`;
             ol.appendChild(li);
         }
-    if(checkWin() === true){
-        start.addEventListener('click', () => {
-            reset();
-        });
-    } else {
-        checkWin();
-    } 
-}
+        
+        if(checkWin() === true){
+            start.addEventListener('click', () => {
+                reset();
+            });
+        } else {
+            checkWin();
+        } 
+    }
 });
